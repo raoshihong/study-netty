@@ -10,6 +10,10 @@ import io.netty.channel.socket.nio.NioServerSocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
 
 /**
+ *
+ *
+ * 我们使用 ServerBootStrap.option 设置的参数适用于新创建的 ServerChannel 的 ChannelConfig，即侦听并接受客户端连接的服务器套接字。当调用 bind() 或 connect() 方法时，这些选项将在服务器通道上设置。此通道是每个服务器一个。ServerBootStrap.childOption 适用于通道的 channelConfig，一旦 serverChannel 接受客户端连接，就会创建该通道。此通道是每个客户端（或每个客户端套接字）。因此 ServerBootStrap.option 参数适用于侦听连接的服务器套接字（服务器通道），而 ServerBootStrap.childOption 参数适用于连接被接受后创建的套接字服务器套接字。同样可以扩展到 ServerBootstrap 类中的 attr vs childAttr 和 handler vs childHandler 方法。我怎么知道哪个选项应该是一个选项，哪个应该是 childOption ？支持哪些 ChannelOptions 取决于我们的通道类型使用。您可以参考您正在使用的 ChannelConfig 的 API 文档。
+ *
  * @author raoshihong
  * @date 2020-08-31 23:01
  */
