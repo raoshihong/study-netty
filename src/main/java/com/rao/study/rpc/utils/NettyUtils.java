@@ -3,8 +3,11 @@ package com.rao.study.rpc.utils;
 import com.rao.study.rpc.RpcConstants;
 import io.netty.channel.epoll.Epoll;
 import io.netty.channel.epoll.EpollServerSocketChannel;
+import io.netty.channel.epoll.EpollSocketChannel;
 import io.netty.channel.socket.ServerSocketChannel;
+import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
+import io.netty.channel.socket.nio.NioSocketChannel;
 
 /**
  * @author raoshihong
@@ -32,6 +35,13 @@ public class NettyUtils {
             return EpollServerSocketChannel.class;
         }
         return NioServerSocketChannel.class;
+    }
+
+    public static Class<? extends SocketChannel> getSocketChannelClass() {
+        if (useEpoll()) {
+            return EpollSocketChannel.class;
+        }
+        return NioSocketChannel.class;
     }
 
 }

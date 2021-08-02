@@ -1,5 +1,6 @@
 package com.rao.study.rpc;
 
+import com.rao.study.rpc.handler.ServerHandler;
 import com.rao.study.rpc.utils.NettyUtils;
 import com.rao.study.rpc.utils.RpcException;
 import io.netty.bootstrap.ServerBootstrap;
@@ -17,6 +18,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
+ * 启动rpc服务端
  * @author raoshihong
  * @date 2021-07-31 12:04
  */
@@ -29,7 +31,10 @@ public class RpcServer {
 
     private final AtomicBoolean isStarted = new AtomicBoolean(false);
 
-    public RpcServer(){
+    private int port;
+
+    public RpcServer(int port){
+        this.port = port;
         if (NettyUtils.useEpoll()) {
             this.bossGroup = new EpollEventLoopGroup(1, new ThreadFactory() {
                 private final AtomicInteger threadIndex = new AtomicInteger(0);
@@ -93,14 +98,15 @@ public class RpcServer {
                         // 通过channel.pipeline管道添加handler处理器,注意顺序
                         ch.pipeline()
                             .addLast("encoder",new NettyEncoder())
-                            .addLast("decoder",new NettyDecoder());
+                            .addLast("decoder",new NettyDecoder())
+                            .addLast(new ServerHandler());
                     }
                 });
 
             // 绑定端口号,并阻塞等待
             ChannelFuture future;
             try {
-                future = this.serverBootstrap.bind().sync();
+                future = this.serverBootstrap.bind(port).sync();
             }catch (Exception e){
                 throw new RpcException("绑定端口号失败");
             }
