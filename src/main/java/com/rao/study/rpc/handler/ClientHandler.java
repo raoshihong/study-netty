@@ -8,7 +8,7 @@ import io.netty.channel.ChannelInboundHandlerAdapter;
  * @author raoshihong
  * @date 2021-08-02 23:12
  */
-public class CleintHandler extends ChannelInboundHandlerAdapter {
+public class ClientHandler extends ChannelInboundHandlerAdapter {
 
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
