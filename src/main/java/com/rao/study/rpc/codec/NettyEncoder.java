@@ -14,5 +14,10 @@ public class NettyEncoder extends MessageToByteEncoder<Command> {
     @Override
     protected void encode(ChannelHandlerContext ctx, Command msg, ByteBuf out) throws Exception {
         System.out.println("encode");
+
+        // 这块到编码输出要与解码到顺序一致
+        out.writeInt(msg.getName().length());
+        out.writeBytes(msg.getName().getBytes());
+
     }
 }

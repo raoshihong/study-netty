@@ -10,6 +10,7 @@ import io.netty.channel.ChannelInboundHandlerAdapter;
  * @date 2021-08-02 23:13
  */
 public class ServerHandler extends ChannelInboundHandlerAdapter {
+
     @Override
     public void channelInactive(ChannelHandlerContext ctx) throws Exception {
         ctx.channel().close();
@@ -17,12 +18,12 @@ public class ServerHandler extends ChannelInboundHandlerAdapter {
 
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
+        System.out.println("serverhandler");
         // 在这快解析
         Command command = (Command)msg;
-        // 将这个channel保存起来,到时通过这个channel发送数据
-        Channel channel = ctx.channel();
-        System.out.println("command"+command.getName());
-        channel.writeAndFlush("aa");
+        System.out.println("获取来自客户端到信息:"+command.getName());
+        command.setName("server-bbb");
+        ctx.writeAndFlush(command);
     }
 
     @Override

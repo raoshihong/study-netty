@@ -80,10 +80,12 @@ public class RpcClient {
             if (future.isSuccess()) {
                 Channel channel = future.channel();
                 //将channel保存起来
-                channel.writeAndFlush("a");
+                Command command = new Command();
+                command.setName("client-aaaa");
+                channel.writeAndFlush(command);
             }
         }catch (Exception e){
-
+            e.printStackTrace();
         }
     }
 }
